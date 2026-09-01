@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atividades JavaScript</title>
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --panel: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --primary: #2563eb;
+        --success: #16a34a;
+        --danger: #dc2626;
+        --warning: #f59e0b;
+        --border: #dbe3ee;
+        --shadow: rgba(15, 23, 42, 0.08);
+      }
+
+      body.dark {
+        --bg: #111827;
+        --panel: #1f2937;
+        --text: #f9fafb;
+        --muted: #cbd5e1;
+        --primary: #60a5fa;
+        --success: #34d399;
+        --danger: #f87171;
+        --warning: #fbbf24;
+        --border: #374151;
+        --shadow: rgba(0, 0, 0, 0.25);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        transition: background-color 0.25s ease, color 0.25s ease;
+      }
+
+      .container {
+        width: min(1100px, 90%);
+        margin: 40px auto;
+        display: grid;
+        gap: 24px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 10px 22px var(--shadow);
+      }
+
+      h2 {
+        margin-top: 0;
+        margin-bottom: 16px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .long-list li {
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        margin-bottom: 10px;
+        transition: all 0.2s ease;
+      }
+
+      .long-list li.highlight {
+        background: #fef3c7;
+        border-color: var(--warning);
+        color: #78350f;
+        font-weight: 700;
+      }
+
+      body.dark .long-list li.highlight {
+        background: rgba(251, 191, 36, 0.18);
+        color: #fcd34d;
+      }
+
+      .counter-wrap {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .counter {
+        font-size: 2rem;
+        font-weight: 700;
+        min-width: 60px;
+        text-align: center;
+      }
+
+      button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 10px;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+      }
+
+      button:hover {
+        opacity: 0.92;
+      }
+
+      .task-list li {
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .task-list li.completed {
+        text-decoration: line-through;
+        color: var(--muted);
+        background: rgba(22, 163, 74, 0.08);
+        border-color: var(--success);
+      }
+
+      .theme-toggle {
+        background: var(--success);
+      }
+
+      form {
+        display: grid;
+        gap: 14px;
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        font-weight: 600;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text);
+      }
+
+      .result-box {
+        margin-top: 12px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: rgba(37, 99, 235, 0.08);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .error {
+        color: var(--danger);
+        font-weight: 700;
+        min-height: 20px;
+      }
+
+      .stock-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+
+      .stock-list li.low {
+        background: rgba(220, 38, 38, 0.09);
+        border-color: var(--danger);
+        color: var(--danger);
+        font-weight: 700;
+      }
+
+      .badge {
+        background: rgba(15, 23, 42, 0.08);
+        padding: 5px 8px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+      }
+
+      body.dark .badge {
+        background: rgba(255, 255, 255, 0.08);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section class="card">
+        <h2>1. Lista com destaque por tamanho do texto</h2>
+        <ul class="long-list" id="listaLonga">
+          <li>JavaScript</li>
+          <li>HTML e CSS</li>
+          <li>Programação Frontend</li>
+          <li>DOM</li>
+          <li>Manipulação de elementos na página</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>2. Contador</h2>
+        <div class="counter-wrap">
+          <button id="btnDiminuir" type="button">-</button>
+          <span class="counter" id="contador">0</span>
+          <button id="btnAumentar" type="button">+</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>3. Lista de tarefas</h2>
+        <ul class="task-list">
+          <li class="task-item">Estudar HTML</li>
+          <li class="task-item">Revisar CSS</li>
+          <li class="task-item">Praticar JavaScript</li>
+          <li class="task-item">Guardar arquivos</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>4. Alternador de tema</h2>
+        <button class="theme-toggle" id="themeToggle" type="button">Alternar tema</button>
+      </section>
+
+      <section class="card">
+        <h2>5. Formulário de cadastro</h2>
+        <form id="cadastroForm" novalidate>
+          <label>
+            Nome:
+            <input type="text" id="nome" name="nome" placeholder="Digite seu nome" />
+          </label>
+
+          <label>
+            E-mail:
+            <input type="email" id="email" name="email" placeholder="Digite seu e-mail" />
+          </label>
+
+          <label>
+            Idade:
+            <input type="number" id="idade" name="idade" placeholder="Digite sua idade" min="0" />
+          </label>
+
+          <button type="submit">Enviar cadastro</button>
+          <div class="error" id="erroCadastro"></div>
+        </form>
+
+        <div class="result-box" id="dadosCadastro">Dados do cadastro aparecerão aqui.</div>
+      </section>
+
+      <section class="card">
+        <h2>9. IMC</h2>
+        <form id="formImc" novalidate>
+          <label>
+            Peso (kg):
+            <input type="number" id="peso" step="0.01" min="0" placeholder="Ex.: 68.5" />
+          </label>
+
+          <label>
+            Altura (m):
+            <input type="number" id="altura" step="0.01" min="0" placeholder="Ex.: 1.72" />
+          </label>
+
+          <button type="submit">Calcular IMC</button>
+          <div class="error" id="erroImc"></div>
+        </form>
+
+        <div class="result-box" id="resultadoImc">Resultado do IMC aparecerá aqui.</div>
+      </section>
+
+      <section class="card">
+        <h2>10. Controle de estoque</h2>
+        <ul class="stock-list" id="stockList"></ul>
+      </section>
+    </div>
+
+    <script>
+      const MAX_CARACTERES = 12;
+
+      function destacarItensLongos() {
+        const listaLonga = document.querySelectorAll('#listaLonga li');
+
+        listaLonga.forEach((item) => {
+          const texto = item.textContent.trim();
+          item.classList.toggle('highlight', texto.length > MAX_CARACTERES);
+        });
+      }
+
+      function criarContador() {
+        let contador = 0;
+        const contadorEl = document.getElementById('contador');
+        const btnAumentar = document.getElementById('btnAumentar');
+        const btnDiminuir = document.getElementById('btnDiminuir');
+
+        function atualizarContador() {
+          contadorEl.textContent = String(contador);
+        }
+
+        btnAumentar.addEventListener('click', () => {
+          contador += 1;
+          atualizarContador();
+        });
+
+        btnDiminuir.addEventListener('click', () => {
+          contador -= 1;
+          atualizarContador();
+        });
+
+        atualizarContador();
+      }
+
+      function ativarTarefas() {
+        document.querySelectorAll('.task-item').forEach((item) => {
+          item.addEventListener('click', () => {
+            item.classList.toggle('completed');
+          });
+        });
+      }
+
+      function alternarTema() {
+        const themeToggle = document.getElementById('themeToggle');
+
+        themeToggle.addEventListener('click', () => {
+          document.body.classList.toggle('dark');
+        });
+      }
+
+      function validarCadastro(event) {
+        event.preventDefault();
+
+        const cadastroForm = document.getElementById('cadastroForm');
+        const erroCadastro = document.getElementById('erroCadastro');
+        const dadosCadastro = document.getElementById('dadosCadastro');
+
+        const nome = document.getElementById('nome').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const idade = document.getElementById('idade').value.trim();
+
+        if (!nome || !email || !idade) {
+          erroCadastro.textContent = 'Preencha todos os campos antes de enviar.';
+          return;
+        }
+
+        erroCadastro.textContent = '';
+        dadosCadastro.textContent = `Nome: ${nome} | E-mail: ${email} | Idade: ${idade} anos`;
+        cadastroForm.reset();
+      }
+
+      function calcularIMC(event) {
+        event.preventDefault();
+
+        const formImc = document.getElementById('formImc');
+        const erroImc = document.getElementById('erroImc');
+        const resultadoImc = document.getElementById('resultadoImc');
+
+        const peso = Number(document.getElementById('peso').value);
+        const altura = Number(document.getElementById('altura').value);
+
+        if (!peso || !altura || peso <= 0 || altura <= 0) {
+          erroImc.textContent = 'Informe peso e altura válidos.';
+          return;
+        }
+
+        erroImc.textContent = '';
+        const imc = peso / (altura * altura);
+
+        let classificacao = 'Peso normal';
+        if (imc < 18.5) {
+          classificacao = 'Abaixo do peso';
+        } else if (imc < 25) {
+          classificacao = 'Peso normal';
+        } else if (imc < 30) {
+          classificacao = 'Sobrepeso';
+        } else if (imc < 35) {
+          classificacao = 'Obesidade grau I';
+        } else if (imc < 40) {
+          classificacao = 'Obesidade grau II';
+        } else {
+          classificacao = 'Obesidade grau III';
+        }
+
+        resultadoImc.textContent = `Seu IMC é ${imc.toFixed(2)} — ${classificacao}.`;
+        formImc.reset();
+      }
+
+      function renderizarEstoque() {
+        const produtos = [
+          { nome: 'Arroz', quantidade: 18, minimo: 20 },
+          { nome: 'Feijão', quantidade: 14, minimo: 12 },
+          { nome: 'Macarrão', quantidade: 7, minimo: 10 },
+          { nome: 'Leite', quantidade: 25, minimo: 15 },
+          { nome: 'Café', quantidade: 6, minimo: 8 }
+        ];
+
+        const stockList = document.getElementById('stockList');
+
+        produtos.forEach((produto) => {
+          const item = document.createElement('li');
+          const nome = document.createElement('span');
+          const info = document.createElement('span');
+
+          const abaixoMinimo = produto.quantidade < produto.minimo;
+          if (abaixoMinimo) {
+            item.classList.add('low');
+          }
+
+          nome.textContent = produto.nome;
+          info.textContent = `${produto.quantidade} / ${produto.minimo}${abaixoMinimo ? ' (abaixo do mínimo)' : ''}`;
+          info.classList.add('badge');
+
+          item.append(nome, info);
+          stockList.appendChild(item);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        destacarItensLongos();
+        criarContador();
+        ativarTarefas();
+        alternarTema();
+
+        document.getElementById('cadastroForm').addEventListener('submit', validarCadastro);
+        document.getElementById('formImc').addEventListener('submit', calcularIMC);
+        renderizarEstoque();
+      });
+    </script>
+  </body>
+</html>
